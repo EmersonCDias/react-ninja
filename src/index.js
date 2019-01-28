@@ -6,7 +6,7 @@ import App from './app'
 const renderApp = NextApp => {
   render(
     <AppContainer>
-      <App />
+      <App lastname="Dias" />
     </AppContainer>,
     document.getElementById('app')
   )
