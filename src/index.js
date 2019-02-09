@@ -2,11 +2,12 @@ import React from 'react'
 import { render } from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 import App from './app'
+import Timer from './components/timer'
 
 const renderApp = NextApp => {
   render(
     <AppContainer>
-      <App lastname="Dias" />
+      <Timer />
     </AppContainer>,
     document.getElementById('app')
   )

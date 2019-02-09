@@ -1,14 +1,10 @@
-import React from 'react'
+import React, { Component } from 'react'
+import Timer from './components/timer'
 
-const App = ({ name, lastname }) => (
-  <div>
-    <h1>{`${name} ${lastname}`}</h1>
-  </div>
-)
-
-App.defaultProps = {
-  name: 'Unkown',
-  lastname: 'No lastname'
+export default class App extends Component {
+  render () {
+    return (
+      <Timer />
+    )
+  }
 }
-
-export default App
