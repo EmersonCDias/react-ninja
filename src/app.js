@@ -1,10 +1,41 @@
-import React, { Component } from 'react'
-import Timer from './components/timer'
+import React from 'react'
+import Search from './components/search'
+import UserInfo from './components/userInfo'
+import Actions from './components/actions'
+import Repos from './components/repos'
 
-export default class App extends Component {
-  render () {
-    return (
-      <Timer />
-    )
-  }
-}
+const App = () => (
+  <div className="app">
+    <Search />
+    <UserInfo />
+    <Actions />
+
+    <Repos
+      className='repos'
+      title='Repositórios'
+      repos={
+        [
+          {
+            name: 'Nome do repositório',
+            link: '#',
+          }
+        ]
+      }
+    />
+
+    <Repos
+      className='starred'
+      title='Favoritos'
+      repos={
+        [
+          {
+            name: 'Nome do repositório',
+            link: '#',
+          }
+        ]
+      }
+    />
+  </div>
+);
+
+export default App;
