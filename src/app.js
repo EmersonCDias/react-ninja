@@ -1,41 +1,67 @@
-import React from 'react'
-import Search from './components/search'
-import UserInfo from './components/userInfo'
-import Actions from './components/actions'
-import Repos from './components/repos'
+import React, { Component } from 'react'
+import AppContent from './components/appContent'
+import ajax from '@fdaciuk/ajax'
 
-const App = () => (
-  <div className="app">
-    <Search />
-    <UserInfo />
-    <Actions />
+export default class App extends Component {
+  constructor() {
+    super()
 
-    <Repos
-      className='repos'
-      title='Repositórios'
-      repos={
-        [
-          {
-            name: 'Nome do repositório',
-            link: '#',
-          }
-        ]
-      }
+    this.state = {
+      userInfo: null,
+      repos: [],
+      starred: [],
+    }
+  }
+
+  handleSearch = e => {
+    const value = e.target.value
+    const keyCode = e.which || e.keyCode
+    const ENTER = 13
+    if (keyCode === ENTER) {
+      ajax().get(`https://api.github.com/users/${value}`)
+        .then(result => {
+          this.setState({
+            userInfo: {
+              username: result.name,
+              photo: result.avatar_url,
+              login: result.login,
+              repos: result.public_repos,
+              followers: result.followers,
+              following: result.following,
+            },
+          })
+        })
+    }
+  }
+
+  getRepos = type => {
+    ajax().get(`https://api.github.com/users/fdaciuk/${type}`)
+      .then(result => {
+        this.setState({
+          repos: result.map(item => {
+            return {
+              name: item.name,
+              link: item.html_url,
+            }
+          })
+        })
+      })
+  }
+  
+  render () {
+    const {
+      userInfo, 
+      repos,
+      starred,
+    } = this.state
+
+    return <AppContent
+      userInfo={userInfo}
+      repos={repos}
+      starred={starred}
+      handleSearch={e => this.handleSearch(e)}
+      handleRepos={() => this.getRepos('repos')}
+      handleFav={() => this.getRepos('starred')}
     />
-
-    <Repos
-      className='starred'
-      title='Favoritos'
-      repos={
-        [
-          {
-            name: 'Nome do repositório',
-            link: '#',
-          }
-        ]
-      }
-    />
-  </div>
-);
-
-export default App;
+  }
+}
